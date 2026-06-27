@@ -1,0 +1,8 @@
+student_health:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: "d:/antigravity/DEPI_Final_Proj/data/student_health.duckdb"
+      schema: main
+      threads: 4

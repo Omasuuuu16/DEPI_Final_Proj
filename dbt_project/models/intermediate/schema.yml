@@ -1,0 +1,55 @@
+version: 2
+
+models:
+  - name: int_student_features
+    description: >
+      Pseudonymised student dimension filtered to current SCD records.
+      PII replaced — national_id hashed, names replaced with 'PSEUDONYMISED',
+      date_of_birth excluded, age derived from date_of_birth.
+    columns:
+      - name: student_key
+        data_tests:
+          - unique
+          - not_null
+      - name: national_id_hashed
+        data_tests:
+          - not_null
+      - name: first_name
+        data_tests:
+          - not_null
+      - name: gender
+        data_tests:
+          - accepted_values:
+              values: ['male', 'female', 'other']
+      - name: age_derived
+        data_tests:
+          - not_null
+
+  - name: int_fact_enriched
+    description: >
+      Fully enriched fact table joining all dimension data and applying
+      feature engineering: BMI classification, sleep/hydration flags,
+      composite activity score, ordinal/one-hot encoding, health trend indicator.
+    columns:
+      - name: fact_id
+        data_tests:
+          - unique
+          - not_null
+      - name: health_condition
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['fit', 'at-risk', 'unhealthy']
+      - name: bmi_class
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['Underweight', 'Normal', 'Overweight', 'Obese']
+      - name: health_trend_indicator
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['improving', 'stable', 'declining']
+      - name: composite_activity_score
+        data_tests:
+          - not_null

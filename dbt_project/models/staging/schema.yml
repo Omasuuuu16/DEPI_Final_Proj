@@ -1,0 +1,134 @@
+version: 2
+
+models:
+  - name: stg_student
+    description: "Staged student dimension — typed and normalised, PII columns preserved."
+    columns:
+      - name: student_key
+        description: "Surrogate primary key."
+        data_tests:
+          - unique
+          - not_null
+      - name: national_id
+        data_tests:
+          - not_null
+      - name: gender
+        data_tests:
+          - accepted_values:
+              values: ['male', 'female', 'other']
+      - name: is_current
+        data_tests:
+          - accepted_values:
+              values: ['YES', 'NO']
+
+  - name: stg_health
+    description: "Staged health dimension."
+    columns:
+      - name: health_key
+        data_tests:
+          - unique
+          - not_null
+      - name: health_condition
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['fit', 'at-risk', 'unhealthy']
+      - name: severity_level
+        data_tests:
+          - accepted_values:
+              values: ['low', 'medium', 'high']
+
+  - name: stg_lifestyle
+    description: "Staged lifestyle dimension."
+    columns:
+      - name: lifestyle_key
+        data_tests:
+          - unique
+          - not_null
+      - name: diet_type
+        data_tests:
+          - accepted_values:
+              values: ['veg', 'non-veg', 'balanced']
+      - name: smoking_alcohol
+        data_tests:
+          - accepted_values:
+              values: ['no', 'occasional', 'yes']
+      - name: physical_activity_level
+        data_tests:
+          - accepted_values:
+              values: ['sedentary', 'moderate', 'active']
+
+  - name: stg_activity
+    description: "Staged activity dimension."
+    columns:
+      - name: activity_key
+        data_tests:
+          - unique
+          - not_null
+      - name: activity_type
+        data_tests:
+          - not_null
+
+  - name: stg_sleep
+    description: "Staged sleep quality dimension."
+    columns:
+      - name: sleep_key
+        data_tests:
+          - unique
+          - not_null
+      - name: sleep_quality
+        data_tests:
+          - accepted_values:
+              values: ['poor', 'average', 'good']
+
+  - name: stg_date
+    description: "Staged date dimension."
+    columns:
+      - name: date_key
+        data_tests:
+          - unique
+          - not_null
+      - name: month
+        data_tests:
+          - not_null
+      - name: year
+        data_tests:
+          - not_null
+
+  - name: stg_fact
+    description: "Staged fact table — all measures cast to correct types."
+    columns:
+      - name: fact_id
+        data_tests:
+          - unique
+          - not_null
+      - name: student_key
+        data_tests:
+          - not_null
+      - name: health_key
+        data_tests:
+          - not_null
+      - name: lifestyle_key
+        data_tests:
+          - not_null
+      - name: activity_key
+        data_tests:
+          - not_null
+      - name: sleep_key
+        data_tests:
+          - not_null
+      - name: date_key
+        data_tests:
+          - not_null
+      - name: bmi
+        data_tests:
+          - not_null
+      - name: heart_rate
+        data_tests:
+          - not_null
+      - name: stress_level
+        data_tests:
+          - not_null
+      - name: sleep_duration
+        data_tests:
+          - not_null

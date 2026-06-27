@@ -1,0 +1,51 @@
+# ─── Data files (too large / generated) ─────────────────────────────────────
+data/raw/*.csv
+data/raw/*.xlsx
+data/raw/*.parquet
+data/parquet/
+data/*.duckdb
+*.duckdb
+*.xlsx
+*.parquet
+data/spark_validation.log
+
+# ─── Airflow runtime files ────────────────────────────────────────────────────
+airflow.db
+airflow.cfg
+airflow-webserver.pid
+webserver_config.py
+logs/
+
+# ─── Python cache ─────────────────────────────────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+
+# ─── dbt runtime artifacts ────────────────────────────────────────────────────
+dbt_project/target/
+dbt_project/dbt_packages/
+dbt_project/logs/
+dbt_project/.user.yml
+
+# ─── Environment / secrets ────────────────────────────────────────────────────
+.env
+*.env
+*.secret
+
+# ─── OS files ─────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ─── IDE ──────────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.suo
+*.user
+
+# ─── Docker volumes ───────────────────────────────────────────────────────────
+pgdata/

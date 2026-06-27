@@ -1,0 +1,75 @@
+version: 2
+
+models:
+  - name: dim_student_transformed
+    description: >
+      Final pseudonymised student dimension. Zero raw PII — national_id is MD5-hashed,
+      names are replaced with 'PSEUDONYMISED', date_of_birth excluded.
+    columns:
+      - name: student_key
+        data_tests:
+          - unique
+          - not_null
+      - name: national_id_hashed
+        data_tests:
+          - not_null
+      - name: gender
+        data_tests:
+          - accepted_values:
+              values: ['male', 'female', 'other']
+      - name: age_derived
+        data_tests:
+          - not_null
+
+  - name: fact_health_transformed
+    description: >
+      Final feature-engineered fact table with all measures, dimension attributes,
+      and engineered features. Safe for cloud promotion — no raw PII.
+    columns:
+      - name: fact_id
+        data_tests:
+          - unique
+          - not_null
+      - name: health_condition
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['fit', 'at-risk', 'unhealthy']
+      - name: bmi_class
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['Underweight', 'Normal', 'Overweight', 'Obese']
+      - name: health_trend_indicator
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['improving', 'stable', 'declining']
+      - name: composite_activity_score
+        data_tests:
+          - not_null
+      - name: bmi
+        data_tests:
+          - not_null
+      - name: heart_rate
+        data_tests:
+          - not_null
+
+  - name: mrt_health_distribution
+    description: "Governed metric: health condition distribution by gender and diet type."
+    columns:
+      - name: record_count
+        data_tests:
+          - not_null
+
+  - name: mrt_bmi_by_gender
+    description: "Governed metric: BMI statistics by gender, BMI class, and health condition."
+
+  - name: mrt_sleep_adequacy
+    description: "Governed metric: sleep adequacy rates by health condition and sleep quality."
+
+  - name: mrt_weekly_activity
+    description: "Governed metric: weekly average health indicators per health condition cohort."
+
+  - name: mrt_risk_correlations
+    description: "Governed metric: behavioural risk factor cross-analysis by health condition."

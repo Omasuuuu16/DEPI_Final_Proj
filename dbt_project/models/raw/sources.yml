@@ -1,0 +1,94 @@
+version: 2
+
+sources:
+  - name: raw
+    description: "Raw staging layer loaded from Spark Parquet output into DuckDB."
+    schema: raw
+    tables:
+      - name: dim_student
+        description: "Student dimension with SCD Type 2 fields and PII columns."
+        columns:
+          - name: student_key
+            description: "Surrogate primary key."
+          - name: National_ID
+            description: "National identification number (PII — pseudonymised in transformation layer)."
+          - name: First_Name
+            description: "Student given name (PII)."
+          - name: Last_Name
+            description: "Student family name (PII)."
+          - name: Gender
+            description: "Student gender: male / female / other."
+          - name: Age
+            description: "Age as stored in source (may differ from derived age)."
+          - name: Date_of_birth
+            description: "Date of birth (PII — used only to derive age)."
+          - name: Start_date
+            description: "SCD effective start date."
+          - name: End_date
+            description: "SCD effective end date (NULL for current record)."
+          - name: Is_current
+            description: "SCD flag: Yes = current record."
+
+      - name: dim_health
+        description: "Health condition dimension."
+        columns:
+          - name: health_key
+          - name: Health_Condition
+            description: "fit | at-risk | unhealthy"
+          - name: Typical_Severity_Level
+            description: "Low | Medium | High"
+          - name: General_Treatment_Type
+            description: "Medication | Therapy | etc."
+
+      - name: dim_lifestyle
+        description: "Student lifestyle dimension."
+        columns:
+          - name: lifestyle_key
+          - name: Diet_Type
+            description: "veg | non-veg | balanced"
+          - name: Smoking_Alcohol
+            description: "no | occasional | yes"
+          - name: Physical_Activity_Level
+            description: "sedentary | moderate | active"
+
+      - name: dim_activity
+        description: "Physical activity type dimension."
+        columns:
+          - name: activity_key
+          - name: Activity_Type
+            description: "Cycling | Yoga | Walking | Running | etc."
+
+      - name: dim_sleep
+        description: "Sleep quality dimension."
+        columns:
+          - name: sleep_key
+          - name: Sleep_Quality
+            description: "poor | average | good"
+
+      - name: dim_date
+        description: "Date dimension."
+        columns:
+          - name: date_key
+          - name: full_date
+          - name: day_of_week
+          - name: month
+          - name: year
+
+      - name: fact_health_analytics
+        description: "Central fact table with all health observation measures."
+        columns:
+          - name: fact_id
+          - name: student_key
+          - name: lifestyle_key
+          - name: health_key
+          - name: activity_key
+          - name: sleep_key
+          - name: date_key
+          - name: bmi
+          - name: heart_rate
+          - name: stress_level
+          - name: sleep_duration
+          - name: step_count
+          - name: exercise_duration
+          - name: calorie_expenditure
+          - name: water_intake
