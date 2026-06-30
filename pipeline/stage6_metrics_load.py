@@ -77,16 +77,14 @@ def build_engine(driver: str, trust_cert: bool = True) -> object:
 
 
 def create_schema_if_not_exists(engine, schema: str) -> None:
-    with engine.connect() as conn:
+    with engine.begin() as conn:
         conn.execute(
             text(
                 f"IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = N'{schema}') "
                 f"EXEC('CREATE SCHEMA [{schema}]');"
             )
         )
-        conn.commit()
     log.info(f"✅  Schema '{schema}' ready in {DATABASE}.")
-
 
 def promote_metric_table(
     duckdb_conn: duckdb.DuckDBPyConnection,

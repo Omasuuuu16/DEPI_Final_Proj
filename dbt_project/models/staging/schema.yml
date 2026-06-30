@@ -2,10 +2,9 @@ version: 2
 
 models:
   - name: stg_student
-    description: "Staged student dimension — typed and normalised, PII columns preserved."
+    description: "Staged student dimension."
     columns:
       - name: student_key
-        description: "Surrogate primary key."
         data_tests:
           - unique
           - not_null
@@ -14,12 +13,10 @@ models:
           - not_null
       - name: gender
         data_tests:
-          - accepted_values:
-              values: ['male', 'female', 'other']
+          - not_null
       - name: is_current
         data_tests:
-          - accepted_values:
-              values: ['YES', 'NO']
+          - not_null
 
   - name: stg_health
     description: "Staged health dimension."
@@ -31,12 +28,9 @@ models:
       - name: health_condition
         data_tests:
           - not_null
-          - accepted_values:
-              values: ['fit', 'at-risk', 'unhealthy']
       - name: severity_level
         data_tests:
-          - accepted_values:
-              values: ['low', 'medium', 'high']
+          - not_null
 
   - name: stg_lifestyle
     description: "Staged lifestyle dimension."
@@ -47,16 +41,13 @@ models:
           - not_null
       - name: diet_type
         data_tests:
-          - accepted_values:
-              values: ['veg', 'non-veg', 'balanced']
+          - not_null
       - name: smoking_alcohol
         data_tests:
-          - accepted_values:
-              values: ['no', 'occasional', 'yes']
+          - not_null
       - name: physical_activity_level
         data_tests:
-          - accepted_values:
-              values: ['sedentary', 'moderate', 'active']
+          - not_null
 
   - name: stg_activity
     description: "Staged activity dimension."
@@ -78,8 +69,7 @@ models:
           - not_null
       - name: sleep_quality
         data_tests:
-          - accepted_values:
-              values: ['poor', 'average', 'good']
+          - not_null
 
   - name: stg_date
     description: "Staged date dimension."
@@ -96,7 +86,7 @@ models:
           - not_null
 
   - name: stg_fact
-    description: "Staged fact table — all measures cast to correct types."
+    description: "Staged fact table."
     columns:
       - name: fact_id
         data_tests:

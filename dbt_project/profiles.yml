@@ -3,6 +3,7 @@ student_health:
   outputs:
     dev:
       type: duckdb
-      path: "d:/antigravity/DEPI_Final_Proj/data/student_health.duckdb"
+      # Update the default fallback to the Docker path
+      path: "{{ env_var('DUCKDB_PATH', '/opt/airflow/data/student_health.duckdb') }}"
       schema: main
       threads: 4

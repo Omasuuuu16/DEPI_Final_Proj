@@ -1,5 +1,5 @@
 """
-Apache Airflow DAG for the Student Health Analytics Pipeline (Byte Busters)
+Apache Airflow DAG for the Student Health Analytics Pipeline
 --------------------------------------------------------------------------
 This DAG schedules, runs, and monitors Stages 1 to 6 of the analytical pipeline:
   1. Stage 1: Pre-flight CSV validation

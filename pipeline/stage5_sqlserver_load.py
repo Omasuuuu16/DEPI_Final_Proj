@@ -68,7 +68,7 @@ def create_database_if_not_exists(driver: str) -> None:
 
     conn_str = (
         f"DRIVER={{{driver}}};SERVER={SQL_SERVER};DATABASE=master;"
-        f"{auth_part}TrustServerCertificate=yes;"
+        f"{auth_part}TrustServerCertificate=yes;Encrypt=no;"
     )
     conn = pyodbc.connect(conn_str, autocommit=True)
     try:
@@ -83,21 +83,19 @@ def create_database_if_not_exists(driver: str) -> None:
 
 
 def create_schema_if_not_exists(engine, schema: str) -> None:
-    """Create the target schema within the database."""
-    with engine.connect() as conn:
+    with engine.begin() as conn:
         conn.execute(
             text(
                 f"IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = N'{schema}') "
                 f"EXEC('CREATE SCHEMA [{schema}]');"
             )
         )
-        conn.commit()
     log.info(f"✅  Schema '{schema}' ready in {DATABASE}.")
 
 
 def build_engine(driver: str, trust_cert: bool = True) -> object:
     """Build a SQLAlchemy engine for SQL Server dynamically supporting Windows/SQL auth."""
-    cert_option = ";TrustServerCertificate=yes" if trust_cert else ""
+    cert_option = ";TrustServerCertificate=yes;Encrypt=no" if trust_cert else ""
     if SQL_USER and SQL_PASSWORD:
         auth_part = f"UID={SQL_USER};PWD={SQL_PASSWORD};"
     else:
